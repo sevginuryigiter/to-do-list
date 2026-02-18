@@ -1,0 +1,71 @@
+import datetime
+plans_list = []
+
+
+
+def to_do():
+    with open("todo_plans", "a") as file:
+
+
+        today = datetime.date.today()
+
+        file.write(f"{today}\n")
+        activity = input(f"{today}\nDo you have plans for today ?\n --> for YES write 'yes'\n --> for 'NO' write 'no'").lower()
+
+        if activity == "no":
+            print("Ok. Goodbye")
+            return plans_list
+
+
+
+        while activity == "yes":
+
+            ask_plan = input("What do you want to do today?  \nfor nothing write --> 'no'").lower()
+
+            if ask_plan != "no":
+                plans_list.append(ask_plan)
+                print(plans_list)
+            else:
+                print("Okay. This is your current list: \n", plans_list)
+
+                ask_for_done = input("Do you have done something ?\n--> for YES write 'yes'\n --> for NO write 'no'").lower()
+                if ask_for_done == "yes":
+                    action = input("What have you done ?").lower()
+                    if action in plans_list:
+                       plans_list.remove(action)
+                       print("Your current to do's: ", plans_list)
+
+                elif ask_for_done == "no":
+                     ask_for_break = input("Ok. Do you want to break up ? \n--> write 'break'\nto start again --> write 'start'").lower()
+                     if ask_for_break == "start":
+                         print("You started the plan: ")
+                         activity = input("Do you have plans for today ? \n--> for YES write 'yes' \n--> for NO write 'no'").lower()
+
+
+                         if activity == "yes":
+                             ask_plan = input("What do you want to do today? \nfor nothing write --> 'no'").lower()
+                             if ask_plan != "no":
+                                plans_list.append(ask_plan)
+
+                         elif activity == "no":
+                             print("Ok. Goodbye")
+                             plans_string = "\n".join(plans_list)
+                             file.write(plans_string)
+                             break
+
+                         else:
+                             print("Sorry there is something wrong. Try again.")
+                             continue
+
+
+                     if ask_for_break == "break":
+                        print("You stopped.")
+                        plans_string = "\n".join(plans_list)
+                        file.write(plans_string)
+                        return plans_list
+
+
+
+
+to_do()
+
